@@ -4,7 +4,7 @@ Scraper for Montana DOT contracting.
 
 from typing import List, Dict, Any
 from .base_scraper import BaseScraper
-from utils.parser import parse_project_data, extract_date
+from utils.parser import parse_project_data, extract_datetime
 
 
 class MontanaDOTScraper(BaseScraper):
@@ -73,15 +73,15 @@ class MontanaDOTScraper(BaseScraper):
                 url = href if href.startswith('http') else f"{self.base_url}{href}"
             
             text_content = element.get_text(separator=' ', strip=True)
-            bid_date = extract_date(text_content)
+            bid_date_time = extract_datetime(text_content)
             
-            location = None
+            project_location = None
             location_patterns = ['location:', 'project location:', 'site:', 'county:', 'route:']
             for pattern in location_patterns:
                 if pattern in text_content.lower():
                     parts = text_content.lower().split(pattern, 1)
                     if len(parts) > 1:
-                        location = parts[1].split('\n')[0].strip()[:100]
+                        project_location = parts[1].split('\n')[0].strip()[:100]
                         break
             
             owner = "Montana Department of Transportation"
@@ -92,10 +92,9 @@ class MontanaDOTScraper(BaseScraper):
                 project_name=project_name,
                 scope=scope,
                 owner=owner,
-                location=location,
-                bid_date=bid_date,
-                source=self.source_name,
-                url=url,
+                project_location=project_location,
+                bid_date_time=bid_date_time,
+                website_link=url,
                 quantities=quantities
             )
         except Exception as e:

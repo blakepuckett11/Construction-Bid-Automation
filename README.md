@@ -83,16 +83,24 @@ The scraper searches for the following foundation and geotechnical keywords:
 
 ## Data Structure
 
-Each project listing includes:
+Each project listing includes the following columns (matching Excel structure):
 
-- **Project Name**: Name of the construction project
+- **Bid Date & Time**: Bid date and time
 - **Scope**: Description of work scope
+- **Project Name**: Name of the construction project
+- **Project Location**: Project location
 - **Owner**: Owner/agency name
-- **Location**: Project location
-- **Bid Date**: Bid date and time
-- **Source**: Source website name
-- **URL**: Link to project page
+- **GCs**: General contractors information
 - **Quantities**: Project quantities if listed
+- **Time Constraints**: Time constraints for the project
+- **Distance (Miles & Time)**: Distance and travel time to project
+- **Site Access**: Site access information
+- **Competition**: Competition level/type
+- **Addendums**: Addendums information
+- **Wage Type**: Wage type (prevailing wage, etc.)
+- **Website Link**: Link to project page
+- **AutomationKey**: Unique identifier for the project (auto-generated)
+- **LastSeen**: Timestamp when project was last seen (auto-generated)
 
 ## Current Sources
 

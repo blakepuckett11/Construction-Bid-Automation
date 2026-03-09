@@ -82,19 +82,27 @@ def create_dataframe(projects: List[Dict[str, Any]]) -> pd.DataFrame:
         projects: List of project dictionaries
         
     Returns:
-        pandas DataFrame with standardized columns
+        pandas DataFrame with standardized columns matching Excel structure
     """
     if not projects:
         # Return empty DataFrame with correct columns
         columns = [
-            "Project Name",
+            "Bid Date & Time",
             "Scope",
+            "Project Name",
+            "Project Location",
             "Owner",
-            "Location",
-            "Bid Date",
-            "Source",
-            "URL",
-            "Quantities"
+            "GCs",
+            "Quantities",
+            "Time Constraints",
+            "Distance (Miles & Time)",
+            "Site Access",
+            "Competition",
+            "Addendums",
+            "Wage Type",
+            "Website Link",
+            "AutomationKey",
+            "LastSeen"
         ]
         return pd.DataFrame(columns=columns)
     
@@ -102,14 +110,22 @@ def create_dataframe(projects: List[Dict[str, Any]]) -> pd.DataFrame:
     
     # Ensure all required columns exist
     required_columns = [
-        "Project Name",
+        "Bid Date & Time",
         "Scope",
+        "Project Name",
+        "Project Location",
         "Owner",
-        "Location",
-        "Bid Date",
-        "Source",
-        "URL",
-        "Quantities"
+        "GCs",
+        "Quantities",
+        "Time Constraints",
+        "Distance (Miles & Time)",
+        "Site Access",
+        "Competition",
+        "Addendums",
+        "Wage Type",
+        "Website Link",
+        "AutomationKey",
+        "LastSeen"
     ]
     
     for col in required_columns:

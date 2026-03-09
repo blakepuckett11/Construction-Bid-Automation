@@ -68,15 +68,23 @@ class BaseScraper(ABC):
         """
         Scrape the website and return a list of project dictionaries.
         
-        Each dictionary should have the following keys:
-        - Project Name
+        Each dictionary should have the following keys (matching Excel column structure):
+        - Bid Date & Time
         - Scope
+        - Project Name
+        - Project Location
         - Owner
-        - Location
-        - Bid Date
-        - Source
-        - URL
+        - GCs
         - Quantities
+        - Time Constraints
+        - Distance (Miles & Time)
+        - Site Access
+        - Competition
+        - Addendums
+        - Wage Type
+        - Website Link
+        - AutomationKey (auto-generated if not provided)
+        - LastSeen (auto-generated if not provided)
         
         Returns:
             List of project dictionaries

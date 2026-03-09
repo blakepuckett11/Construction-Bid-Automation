@@ -4,7 +4,7 @@ Scraper for LHTAC (Local Highway Technical Assistance Council) project plans and
 
 from typing import List, Dict, Any
 from .base_scraper import BaseScraper
-from utils.parser import parse_project_data
+from utils.parser import parse_project_data, extract_datetime
 
 
 class LHTACScraper(BaseScraper):
@@ -82,22 +82,25 @@ class LHTACScraper(BaseScraper):
             # This is a template - customize based on actual HTML structure
             scope = None
             owner = "LHTAC"
-            location = None
-            bid_date = None
+            project_location = None
+            bid_date_time = None
             quantities = None
             
             # Try to find additional information in nearby elements
             parent = element.parent if element.parent else element
             text_content = parent.get_text(separator=' ', strip=True)
             
+            # Try to extract bid date and time
+            if text_content:
+                bid_date_time = extract_datetime(text_content)
+            
             return parse_project_data(
                 project_name=project_name,
                 scope=scope or text_content[:200],  # Use text content as scope if not found
                 owner=owner,
-                location=location,
-                bid_date=bid_date,
-                source=self.source_name,
-                url=url,
+                project_location=project_location,
+                bid_date_time=bid_date_time,
+                website_link=url,
                 quantities=quantities
             )
         except Exception as e:

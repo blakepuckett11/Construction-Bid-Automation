@@ -35,37 +35,36 @@ def example_keyword_filtering():
     print("-" * 60)
     
     # Get some sample projects (in real usage, these would come from scrapers)
+    from utils.parser import parse_project_data
+    
     sample_projects = [
-        {
-            "Project Name": "Bridge Foundation Repair Project",
-            "Scope": "Repair and replace bridge foundations with drilled shafts",
-            "Owner": "Idaho DOT",
-            "Location": "Boise, ID",
-            "Bid Date": "2024-01-15",
-            "Source": "Idaho DOT",
-            "URL": "https://example.com/project1",
-            "Quantities": "N/A"
-        },
-        {
-            "Project Name": "Highway Resurfacing",
-            "Scope": "Resurface 10 miles of highway",
-            "Owner": "Idaho DOT",
-            "Location": "Twin Falls, ID",
-            "Bid Date": "2024-01-20",
-            "Source": "Idaho DOT",
-            "URL": "https://example.com/project2",
-            "Quantities": "N/A"
-        },
-        {
-            "Project Name": "Micropile Installation",
-            "Scope": "Install micropiles for building foundation",
-            "Owner": "City of Boise",
-            "Location": "Boise, ID",
-            "Bid Date": "2024-01-25",
-            "Source": "City Portal",
-            "URL": "https://example.com/project3",
-            "Quantities": "N/A"
-        }
+        parse_project_data(
+            project_name="Bridge Foundation Repair Project",
+            scope="Repair and replace bridge foundations with drilled shafts",
+            owner="Idaho DOT",
+            project_location="Boise, ID",
+            bid_date_time="2024-01-15 10:00 AM",
+            website_link="https://example.com/project1",
+            quantities="N/A"
+        ),
+        parse_project_data(
+            project_name="Highway Resurfacing",
+            scope="Resurface 10 miles of highway",
+            owner="Idaho DOT",
+            project_location="Twin Falls, ID",
+            bid_date_time="2024-01-20 2:00 PM",
+            website_link="https://example.com/project2",
+            quantities="N/A"
+        ),
+        parse_project_data(
+            project_name="Micropile Installation",
+            scope="Install micropiles for building foundation",
+            owner="City of Boise",
+            project_location="Boise, ID",
+            bid_date_time="2024-01-25 9:00 AM",
+            website_link="https://example.com/project3",
+            quantities="N/A"
+        )
     ]
     
     # Filter by keywords
@@ -85,17 +84,18 @@ def example_dataframe():
     print("Example 3: Working with DataFrames")
     print("-" * 60)
     
+    from utils.parser import parse_project_data
+    
     sample_projects = [
-        {
-            "Project Name": "Bridge Foundation Project",
-            "Scope": "Drilled shaft foundation installation",
-            "Owner": "Idaho DOT",
-            "Location": "Boise, ID",
-            "Bid Date": "2024-01-15",
-            "Source": "Idaho DOT",
-            "URL": "https://example.com/project1",
-            "Quantities": "N/A"
-        }
+        parse_project_data(
+            project_name="Bridge Foundation Project",
+            scope="Drilled shaft foundation installation",
+            owner="Idaho DOT",
+            project_location="Boise, ID",
+            bid_date_time="2024-01-15 10:00 AM",
+            website_link="https://example.com/project1",
+            quantities="N/A"
+        )
     ]
     
     df = pd.DataFrame(sample_projects)
