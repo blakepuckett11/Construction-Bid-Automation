@@ -1,0 +1,163 @@
+# Construction Bid Automation Scraper
+
+A modular Python web scraper for automatically finding construction bid opportunities that match foundation and geotechnical keywords from public infrastructure bidding websites.
+
+## Project Overview
+
+This tool searches multiple public works and government procurement websites for new project listings, filters them based on specific foundation construction and ground engineering keywords, and returns structured data ready for Excel export.
+
+## Features
+
+- **Modular Architecture**: Easy to add new website scrapers
+- **Keyword Filtering**: Automatically filters projects based on foundation/geotechnical keywords
+- **Structured Data Output**: Returns standardized pandas DataFrame with project information
+- **Extensible Design**: Built to support future features like PDF parsing and AI extraction
+
+## Project Structure
+
+```
+project_scraper/
+├── main.py                 # Main orchestrator script
+├── keywords.py             # Keyword definitions
+├── requirements.txt        # Python dependencies
+├── README.md              # This file
+├── scrapers/              # Website-specific scrapers
+│   ├── __init__.py
+│   ├── base_scraper.py    # Base scraper class
+│   ├── lhtac.py          # LHTAC scraper
+│   ├── idaho_dot.py      # Idaho DOT scraper
+│   ├── washington_dot.py # Washington DOT scraper
+│   ├── oregon_dot.py     # Oregon DOT scraper
+│   ├── montana_dot.py    # Montana DOT scraper
+│   ├── wyoming_dot.py    # Wyoming DOT scraper
+│   └── future_sources.py # Placeholders for future sources
+├── utils/                 # Utility modules
+│   ├── __init__.py
+│   ├── parser.py         # Data parsing utilities
+│   └── filters.py        # Keyword filtering utilities
+└── output/               # Output directory (for future Excel exports)
+```
+
+## Installation
+
+1. Clone or download this repository
+2. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+Run the main script:
+
+```bash
+python main.py
+```
+
+The script will:
+1. Load the keyword list
+2. Scrape all configured websites
+3. Filter projects by keywords
+4. Display results as a pandas DataFrame
+
+## Keywords
+
+The scraper searches for the following foundation and geotechnical keywords:
+
+- bridge
+- dewatering
+- drilled shaft
+- CIDH
+- pile foundation
+- steel pile
+- micropile
+- tieback
+- anchor
+- soil nail
+- ground improvement
+- jet grout
+- secant pile
+- soldier pile
+- earth retention
+
+## Data Structure
+
+Each project listing includes:
+
+- **Project Name**: Name of the construction project
+- **Scope**: Description of work scope
+- **Owner**: Owner/agency name
+- **Location**: Project location
+- **Bid Date**: Bid date and time
+- **Source**: Source website name
+- **URL**: Link to project page
+- **Quantities**: Project quantities if listed
+
+## Current Sources
+
+- LHTAC (Local Highway Technical Assistance Council)
+- Idaho Transportation Department
+- Washington State DOT
+- Oregon DOT
+- Montana DOT
+- Wyoming DOT
+
+## Future Sources (Placeholders)
+
+- City government procurement portals
+- Federal procurement sites (SAM.gov, etc.)
+- Bid aggregators
+
+## Adding New Scrapers
+
+To add a new website scraper:
+
+1. Create a new file in the `scrapers/` directory (e.g., `new_source.py`)
+2. Create a class that inherits from `BaseScraper`
+3. Implement the `scrape()` method
+4. Add the scraper to `scrapers/__init__.py`
+5. Add an instance to the `scrapers` list in `main.py`
+
+Example:
+
+```python
+from scrapers.base_scraper import BaseScraper
+from utils.parser import parse_project_data
+
+class NewSourceScraper(BaseScraper):
+    def __init__(self):
+        super().__init__(
+            source_name="New Source",
+            base_url="https://example.com"
+        )
+    
+    def scrape(self):
+        # Implement scraping logic
+        projects = []
+        # ... scraping code ...
+        return projects
+```
+
+## Notes
+
+- Website structures vary, so each scraper may need customization based on the actual HTML structure
+- The scrapers include delays between requests to be respectful to servers
+- Error handling is included to continue scraping even if one source fails
+- This is the first phase - Excel export and scheduling will be added later
+
+## Dependencies
+
+- `requests`: HTTP library for web requests
+- `beautifulsoup4`: HTML parsing
+- `pandas`: Data manipulation and DataFrame creation
+- `openpyxl`: Excel file support (for future export feature)
+- `lxml`: Fast XML/HTML parser
+
+## License
+
+[Add your license here]
+
+## Contributing
+
+[Add contribution guidelines here]
