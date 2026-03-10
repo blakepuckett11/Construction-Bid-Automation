@@ -284,13 +284,13 @@ def split_bid_datetime(bid_datetime: Optional[str]) -> Tuple[str, str, str]:
     Split bid date and time into separate components.
     
     Converts: "Wednesday, April 1, 2026 - 11:00am PDT"
-    Into: ("2026-04-01", "11", "PDT")
+    Into: ("2026-04-01", "11:00", "PDT")
     
     Args:
         bid_datetime: Combined date and time string
         
     Returns:
-        Tuple of (date YYYY-MM-DD, hour HH, timezone)
+        Tuple of (date YYYY-MM-DD, time HH:MM, timezone)
     """
     if not bid_datetime or bid_datetime == "N/A":
         return ("N/A", "N/A", "N/A")
@@ -329,9 +329,27 @@ def split_bid_datetime(bid_datetime: Optional[str]) -> Tuple[str, str, str]:
                     hour = 0
             
             date_str = f"{year}-{month}-{day.zfill(2)}"
-            hour_str = str(hour).zfill(2)
+            time_str = f"{str(hour).zfill(2)}:{minute}"
             
-            return (date_str, hour_str, timezone)
+            return (date_str, time_str, timezone)
+        
+        # Try simpler date-time format: "2024-01-15 14:30"
+        datetime_simple_match = re.search(
+            r'(\d{4})[/-](\d{1,2})[/-](\d{1,2})\s+(\d{1,2}):(\d{2})',
+            bid_datetime
+        )
+        if datetime_simple_match:
+            year = datetime_simple_match.group(1)
+            month = datetime_simple_match.group(2).zfill(2)
+            day = datetime_simple_match.group(3).zfill(2)
+            hour = datetime_simple_match.group(4).zfill(2)
+            minute = datetime_simple_match.group(5)
+            date_str = f"{year}-{month}-{day}"
+            time_str = f"{hour}:{minute}"
+            # Try to extract timezone
+            tz_match = re.search(r'([A-Z]{2,4})$', bid_datetime)
+            timezone = tz_match.group(1) if tz_match else "N/A"
+            return (date_str, time_str, timezone)
         
         # Try simpler date-only format
         date_match = re.search(r'(\d{4})[/-](\d{1,2})[/-](\d{1,2})', bid_datetime)

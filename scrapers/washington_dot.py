@@ -166,6 +166,10 @@ class WashingtonDOTScraper(BaseScraper):
             if overview_div:
                 scope = overview_div.get_text(strip=True)
             
+            # Also capture additional page text for keyword scanning
+            # Get all text content from the element for comprehensive scanning
+            page_text = element.get_text(separator=' ', strip=True)
+            
             # Extract quantities from scope text
             quantities = None
             if scope:
@@ -187,7 +191,8 @@ class WashingtonDOTScraper(BaseScraper):
             if not project_name:
                 return None
             
-            return parse_project_data(
+            # Create project data with all available text fields
+            project_data = parse_project_data(
                 project_name=project_name,
                 scope=scope,
                 owner=owner,
@@ -196,6 +201,15 @@ class WashingtonDOTScraper(BaseScraper):
                 website_link=url or self.projects_url,
                 quantities=quantities
             )
+            
+            # Add additional text fields for comprehensive keyword scanning
+            # These will be used by the filter function to find keywords in all text
+            if page_text:
+                project_data['Page Text'] = page_text
+            if scope:
+                project_data['Description'] = scope  # Use scope as description too
+            
+            return project_data
         except Exception as e:
             print(f"Error in _parse_project_element: {e}")
             import traceback
