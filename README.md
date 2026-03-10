@@ -60,6 +60,13 @@ The script will:
 2. Scrape all configured websites
 3. Filter projects by keywords
 4. Display results as a pandas DataFrame
+5. Export filtered results to an Excel file in the `output/` directory
+
+The Excel file will be automatically named with a timestamp (e.g., `construction_bids_20240115_143022.xlsx`) and includes:
+- All 16 columns matching your Excel structure
+- Auto-adjusted column widths
+- Frozen header row
+- Bold headers
 
 ## Keywords
 
@@ -147,12 +154,23 @@ class NewSourceScraper(BaseScraper):
         return projects
 ```
 
+## Excel Export
+
+The scraper automatically exports results to Excel files in the `output/` directory. Each file includes:
+
+- **Timestamped filename**: `construction_bids_YYYYMMDD_HHMMSS.xlsx`
+- **Formatted columns**: Auto-adjusted widths, frozen header row, bold headers
+- **All 16 columns**: Matching your Excel spreadsheet structure
+- **Filtered results**: Only projects matching foundation/geotechnical keywords
+
+To customize the export location or filename, modify the `export_to_excel()` function call in `main.py`.
+
 ## Notes
 
 - Website structures vary, so each scraper may need customization based on the actual HTML structure
 - The scrapers include delays between requests to be respectful to servers
 - Error handling is included to continue scraping even if one source fails
-- This is the first phase - Excel export and scheduling will be added later
+- Excel files are saved in the `output/` directory (created automatically if it doesn't exist)
 
 ## Dependencies
 

@@ -24,6 +24,25 @@ FOUNDATION_KEYWORDS = [
     "earth retention",
 ]
 
+# Keyword relevance weights for scoring
+KEYWORD_WEIGHTS = {
+    "bridge": 1,
+    "dewatering": 2,
+    "drilled shaft": 3,
+    "CIDH": 3,
+    "pile foundation": 3,
+    "steel pile": 2,
+    "micropile": 3,
+    "tieback": 2,
+    "anchor": 2,
+    "soil nail": 2,
+    "ground improvement": 3,
+    "jet grout": 3,
+    "secant pile": 3,
+    "soldier pile": 2,
+    "earth retention": 2,
+}
+
 
 def get_keywords():
     """
@@ -33,6 +52,29 @@ def get_keywords():
         list: List of keyword strings
     """
     return FOUNDATION_KEYWORDS.copy()
+
+
+def get_keyword_weights():
+    """
+    Returns the dictionary of keyword weights for relevance scoring.
+    
+    Returns:
+        dict: Dictionary mapping keywords to their weights
+    """
+    return KEYWORD_WEIGHTS.copy()
+
+
+def get_keyword_weight(keyword: str) -> int:
+    """
+    Get the weight/relevance score for a specific keyword.
+    
+    Args:
+        keyword: Keyword to get weight for
+        
+    Returns:
+        int: Weight value (defaults to 1 if not found)
+    """
+    return KEYWORD_WEIGHTS.get(keyword.lower().strip(), 1)
 
 
 def normalize_keyword(keyword):
